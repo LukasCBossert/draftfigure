@@ -1,3 +1,4 @@
+% !TEX root = draftfigure.tex
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[utf8]{inputenc}
@@ -19,7 +20,7 @@
  \usepackage[oldstyle]{libertine}
 \defaultfontfeatures[AnonymousPro]
   {
-    Extension      = .ttf                       ,
+    Extension      = .ttf           ,
     BoldFont       = AnonymousPro-Bold          ,
     ItalicFont     = AnonymousPro-BoldItalic    ,
     BoldItalicFont = AnonymousPro-Italic        ,
@@ -29,21 +30,14 @@
 
 
 
-\usepackage{xr-hyper}
 \usepackage{url}
 \usepackage{xspace}
-
-
-\usepackage[
-	backend=biber,
-]{biblatex}
+\usepackage{draftfigure}
 \usepackage{metalogo}
 \usepackage{hologo}
 \usepackage{babel}
-\usepackage{coolthms}
 
 
-\usepackage{chngcntr}
 
 \usepackage[
   autostyle=true,%
@@ -70,9 +64,12 @@ draft=false,
 ]{scrlayer-scrpage} 
 \pagestyle{scrheadings}
 \clearscrheadfoot
-\ihead{\normalfont\footnotesize \texttt{bib}\LaTeX-style \texttt{draftfigure \draftfigureversion} \copyright\ by Lukas C. Bossert}%
-\rofoot{\normalfont\footnotesize  \textbf{\sffamily \thepage}}
-\lofoot{\normalfont\footnotesize  \href{http://www.digitales-altertum.de}{digitales-altertum.de}}
+\addtokomafont{pageheadfoot}{\normalfont\footnotesize\sffamily\color{black!50}}
+
+\lohead{\texttt{draftfigure \dfdate v\dfversion}}%
+\rohead{\copyright\ by Lukas C. Bossert}
+\rofoot{\textbf{\sffamily \thepage}}
+\lofoot{\href{http://www.digitales-altertum.de}{digitales-altertum.de}}
 
 \usepackage[%
 %  flushmargin, %
@@ -88,55 +85,18 @@ draft=false,
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 2pt}
 \setenumerate[1]{label=(\alph*),leftmargin=*,nolistsep,parsep=\parskip}
-\usepackage{changepage}
-\makeindex
-
+\usepackage{float}
 \usepackage{caption}
 
 \usepackage[%
+  xparse,
   skins,%
   listings,%
   breakable,%
 ]{tcolorbox}
 \lstMakeShortInline{|}
 
-\newtcblisting[
-  auto counter,
-  list inside=bibexample,
-%  number within=subsection,
-  crefname={Example}{Examples}
-]{bibexample}[2][]{%
-  listing only,
-  breakable,
-  top=0.5pt,
-  bottom=0.5pt,
-  colback=codegreen!10,
-  colframe=codegreen,
-    left=5pt,
-    right=5pt,
-    sharp corners,
-  boxrule=0pt,
-  bottomrule=2pt,
-  toprule=2pt,
-  enhanced jigsaw,
-  listing options={%style=tcblatex,
-    numbers=left,
-    numberstyle=\small\color{codeblue},
-    moredelim={[is][keywordstyle]{@@}{@@}},
-        basicstyle=\small\ttfamily,
-    breaklines=true,
-    breakautoindent=false,
-    breakindent=0pt,
-    escapeinside={{*@}{@*}},
-  },%
-  lefttitle=0pt,
-  coltitle=black,
-  colbacktitle=codegreen!20,
-  fonttitle=\bfseries\sffamily\footnotesize,
-  title={Example \thetcbcounter:  #2}, 
-  #1,%  
-  borderline north={1pt}{14.4pt}{codegreen,dashed},
-}
+ 
 
 \newtcblisting[
 auto counter,
@@ -173,27 +133,6 @@ auto counter,
 %    borderline north={1pt}{14.4pt}{codegreen,dashed},
 }
 
-\newtcolorbox{bibbox}[1]{
-      breakable,
-      top=5pt,
-      bottom=5pt,
-      colback=codeblue!10,
-      colframe=codeblue,
-      left=5pt,
-      right=5pt,
-        sharp corners,
-      boxrule=0pt,
-      bottomrule=2pt,
-      toprule=2pt,
-      enhanced jigsaw,
-        lefttitle=0pt,
-        coltitle=black,
-          fontupper=\small,%\ttfamily,
-        colbacktitle=codeblue!20,
-        fonttitle=\bfseries\footnotesize,
-  title={\Cref{#1}},
-        borderline north={1pt}{14.4pt}{codeblue,dashed},
-}
 
 
 \newtcolorbox{marker}[1][]{
@@ -211,14 +150,12 @@ enhanced,
   drop fuzzy shadow,#1
   }
   
-\newtcolorbox{examplebox}[1][]{
-examplebox,
-}
+\newtcolorbox{examplebox}[1][]{examplebox}
 
 \tcbset{examplebox/.style={%
-              boxrule=0pt,
-              bottomrule=2pt,
-              toprule=2pt,
+  boxrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
  colframe=codeblue,
   colback=codegreen!10,
    coltitle=codegreen!10,%  coltitle=codeblue,
@@ -231,14 +168,13 @@ examplebox,
 
 
 
-\newtcblisting{example}{%
-    before skip=\baselineskip,
+\newtcblisting{codeexample}{%
+before skip=\baselineskip,
 examplebox,
 breakable,
 %  sidebyside,
 listing and text,
 }
-
 
 
 
@@ -251,8 +187,8 @@ listing and text,
 	pdfauthor      = {Lukas C. Bossert},	% 	- author (PDF meta)
 	pdfauthortitle = {},
 	pdfcopyright   = {This work may be distributed and/or modified under the
-                    conditions of the LaTeX Project Public License, either version 1.3
-                    of this license or (at your option) any later version.},
+        conditions of the LaTeX Project Public License, either version 1.3
+        of this license or (at your option) any later version.},
 	pdfhighlight   = /N,
 	pdfdisplaydoctitle = true,
 	pdfdate        = {\the\year-\the\month-\the\day}
@@ -276,9 +212,9 @@ listing and text,
 }
 \usepackage{bookmark}
 
-\crefformat{lstlisting}{#2example\ #1#3}
-\Crefformat{lstlisting}{#2Example #1#3}
-\crefmultiformat{lstlisting}{#2examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
-\Crefmultiformat{lstlisting}{#2Examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
-\Crefrangeformat{lstlisting}{#3Examples #1#4--#5#2#6}
-\crefrangeformat{lstlisting}{#3examples #1#4--#5#2#6}
+% \crefformat{lstlisting}{#2example\ #1#3}
+% \Crefformat{lstlisting}{#2Example #1#3}
+% \crefmultiformat{lstlisting}{#2examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
+% \Crefmultiformat{lstlisting}{#2Examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
+% \Crefrangeformat{lstlisting}{#3Examples #1#4--#5#2#6}
+% \crefrangeformat{lstlisting}{#3examples #1#4--#5#2#6}

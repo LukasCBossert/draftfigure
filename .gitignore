@@ -12,3 +12,13 @@
 *.pdf
 
 *.gz
+
+*.toc
+
+*.thm
+
+*.sty
+
+*.listing
+
+dftest.tex
