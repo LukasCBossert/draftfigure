@@ -10,30 +10,39 @@
 \RequirePackage{xkeyval}
 
 \newbool{df@filename}
-\newlength\dfsize{}
-%\providecommand*\df@font{}
-\providecommand*\df@font{\normalsize}
-\providecommand*\df@style{\sffamily}
-\providecommand*\df@content{}
+\newbool{df@noframe}
+
+\newlength\df@height
+\newlength\df@length
 
 \patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
 
-
-
-%\DeclareOptionX{force}{\AtBeginPackage\RequirePackage[draft]{graphicx}}%<--- Fehlermeldung
+\providecommand*\df@font{\normalsize}
+\providecommand*\df@style{\sffamily}
+\providecommand*\df@content{}
+\providecommand\df@noframe{% NOT WORKING
+ \patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}%left
+ \patchcmd\Gin@setfile{\hss\vrule}{\hss\vrule\@width\z@}{}{}%right
+ \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}%top
+ \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}%bottom
+}
 
 %% Declare a package option
 \DeclareOptionX{content}{\def\df@content{#1}}
-\DeclareOptionX{filename}{\booltrue{df@filename}}
+\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
+
+}
 \DeclareOptionX{font}{\def\df@font{\csname #1\endcsname}}
 \DeclareOptionX{style}{\def\df@style{\csname df@style@#1\endcsname}}
 \DeclareOptionX{allfiguresdraft}{\setkeys{Gin}{draft=true}}
-\DeclareOptionX{noframe}{%https://tex.stackexchange.com/a/94596/98739
-  \patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}
-  \patchcmd\Gin@setfile{\hss\vrule}{\hss\vrule\@width\z@}{}{}
-  \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}
-  \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}
+\DeclareOptionX{noframe}[true]{\csuse{bool#1}{df@noframe}\df@noframe
+  %https://tex.stackexchange.com/a/94596/98739
+ \patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}%left
+ \patchcmd\Gin@setfile{\hss\vrule}{\hss\vrule\@width\z@}{}{}%right
+ \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}%top
+ \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}%bottom
 }
+
 %% predefined styles
 \providecommand\df@style@default{\sffamily}
 \providecommand\df@style@sf{\sffamily}
@@ -58,25 +67,31 @@
 
 \define@key{draftfigure}{code}{%
   \def\df@style{#1}}
-\define@key{draftfigure}{filename}{%
-  \csname bool#1\endcsname{df@filename}}
-\define@key{draftfigure}{content}{%
+\define@key{draftfigure}{noframe}[true]{%
+  \csuse{bool#1}{df@noframe}
+ \df@noframe}
+\define@key{draftfigure}{filename}[true]{%
+  \csuse{bool#1}{df@filename}}
+\define@key{draftfigure}{content}[]{%
   \def\df@content{#1}}
-\define@key{draftfigure}{style}{%
+\define@key{draftfigure}{style}[normal]{%
   \def\df@style{\csname df@style@#1\endcsname}}
-\define@key{draftfigure}{font}{%
+\define@key{draftfigure}{font}[sf]{%
   \def\df@font{\csname df@font@#1\endcsname}}
+
 \newcommand\setdf[1]{%
   \setkeys{draftfigure}{#1}}
 
 
 
 \def\@draftfigure{%
-\begin{minipage}[c]{\linewidth}
- %\centering
+\setlength\df@length{\Gin@req@width}%
+\setlength\df@height{\Gin@nat@height}%
+\begin{minipage}[\df@height]{\df@length}
+  %\centering
   \df@font%
  \df@style%
-  \df@content
- \ifbool{df@filename}{\mbox{~}\\file: \expandafter\strip@prefix\meaning\@tempa}{}
-\end{minipage}}
+  \df@content%
+ \ifbool{df@filename}{\mbox{~}\\[\baselineskip]\expandafter\strip@prefix\meaning\@tempa}{}%
+\end{minipage}}%
 \endinput
