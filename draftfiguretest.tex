@@ -9,6 +9,7 @@
 \RequirePackage{graphicx}
 \RequirePackage{etoolbox}
 \RequirePackage{xkeyval}
+\RequirePackage{calc}
 
 \newbool{df@filename}
 \newbool{df@noframe}
@@ -18,9 +19,7 @@
 
 \patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
 
-\providecommand*\df@font{\normalsize}
-\providecommand*\df@style{\sffamily}
-\providecommand*\df@content{}
+
 \providecommand\df@noframe{% NOT WORKING
 	\patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}%left
 	\patchcmd\Gin@setfile{\hss\vrule}{\hss\vrule\@width\z@}{}{}%right
@@ -33,9 +32,10 @@
 \DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
 
 }
-\DeclareOptionX{font}{\def\df@font{\csname #1\endcsname}}
-\DeclareOptionX{style}{\def\df@style{\csname df@style@#1\endcsname}}
-\DeclareOptionX{allfiguresdraft}{\setkeys{Gin}{draft=true}}
+\DeclareOptionX{size}[normal]{\def\df@size{\csname df@size@#1\endcsname}}
+\DeclareOptionX{style}[sf]{\def\df@style{\csname df@style@#1\endcsname}}
+\DeclareOptionX{position}[right]{\def\df@position{\csname df@position@#1\endcsname}}
+\DeclareOptionX{allfiguresdraft}[true]{\setkeys{Gin}{draft=#1}}
 \DeclareOptionX{noframe}[true]{\csuse{bool#1}{df@noframe}\df@noframe
   %https://tex.stackexchange.com/a/94596/98739
 	\patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}%left
@@ -52,16 +52,21 @@
 \providecommand\df@style@tt{\tt}
 \providecommand\df@style@rm{\rm}
 
-\providecommand\df@font@tiny{\tiny}
-\providecommand\df@font@scriptsize{\scriptsize}
-\providecommand\df@font@small{\small}
-\providecommand\df@font@footnotesize{\footnotesize}
-\providecommand\df@font@normal{\normalsize}
-\providecommand\df@font@large{\large}
-\providecommand\df@font@Large{\Large}
-\providecommand\df@font@huge{\huge}
-\providecommand\df@font@HUGE{\HUGE}
+\providecommand\df@size@tiny{\tiny}
+\providecommand\df@size@scriptsize{\scriptsize}
+\providecommand\df@size@small{\small}
+\providecommand\df@size@footnotesize{\footnotesize}
+\providecommand\df@size@normal{\normalsize}
+\providecommand\df@size@large{\large}
+\providecommand\df@size@Large{\Large}
+\providecommand\df@size@huge{\huge}
+\providecommand\df@size@HUGE{\HUGE}
 
+\providecommand\df@position@top{}
+\providecommand\df@position@center{\centering}
+\providecommand\df@position@bottom{}
+\providecommand\df@position@right{\raggedleft}
+\providecommand\df@position@left{\raggedright}
 
 %% Process the options given to the package 
 \ProcessOptionsX
@@ -77,8 +82,10 @@
   \def\df@content{#1}}
 \define@key{draftfigure}{style}[normal]{%
   \def\df@style{\csname df@style@#1\endcsname}}
-\define@key{draftfigure}{font}[sf]{%
-  \def\df@font{\csname df@font@#1\endcsname}}
+\define@key{draftfigure}{position}[normal]{%
+	  \def\df@position{\csname df@position@#1\endcsname}}
+\define@key{draftfigure}{size}[sf]{%
+  \def\df@size{\csname df@size@#1\endcsname}}
 
 \newcommand\setdf[1]{%
   \setkeys{draftfigure}{#1}}
@@ -88,12 +95,17 @@
 \def\@draftfigure{%
 \setlength\df@length{\Gin@req@width}%
 \setlength\df@height{\Gin@nat@height}%
-\begin{minipage}[\df@height]{\df@length}
-	 %\centering
-  \df@font%
+\begin{minipage}[c][\df@height][c]{\df@length - 1em}
+  \df@position%
+  \df@size%
 	\df@style%
   \df@content%
- \ifbool{df@filename}{\mbox{~}\\[\baselineskip]\expandafter\strip@prefix\meaning\@tempa}{}%
+ \ifbool{df@filename}{%
+   \ifdefined\df@content%
+   {\mbox{~}\\[\baselineskip]}%
+	 {}
+	 \expandafter\strip@prefix\meaning\@tempa}
+	{}%
 \end{minipage}}%
 \endinput
 \end{filecontents}
@@ -102,11 +114,12 @@
 
 \usepackage[%
 style={sf},
-font={},
+size={},
+position={center},
 allfiguresdraft,
 content={Kein Bild},
 %filename,
-%noframe,
+noframe,
 ]{draftfigure}
 
 \begin{document}
@@ -115,8 +128,7 @@ content={Kein Bild},
 	
 	\begin{figure}
 	\setdf{
-	content={Dieses Bild kann nicht angezeigt werden, da die Digitalrechte fehlen und anschließend kommt noch ganz viel Text hinterher, um.},
-	filename}
+	content={},filename}
 %	\setdf{content={Copyright}}
 
 	\includegraphics[width=.7\textwidth,draft]{example-image-a}
@@ -125,13 +137,14 @@ content={Kein Bild},
 
 	\begin{figure}
 	\setdf{
-	noframe,
+	noframe,filename,
 	content={\ifbool{df@noframe}{true}{false}}}
 	\includegraphics[width=.7\textwidth]{example-image-b}
 	\end{figure}
 	%<--- nur zum Testen
 	\begin{figure}
 		\setdf{
+		position ={left},
 		content={Dieses Bild kann nicht angezeigt werden, da die Digitalrechte fehlen und anschließend kommt noch ganz viel Text hinterher, um die Höhe des Bildes zu testen. Ich hoffe dieser viele Text hilft und reicht}}
 	\includegraphics[width=.4\textwidth]{example-image-c}
 	\end{figure}
