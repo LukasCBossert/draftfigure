@@ -22,6 +22,10 @@ english
 \setkeys{Gin}{width=.5\linewidth}
 
 \begin{document}
+\AddRevision{2017-05-07}{Documentation completed}{Lukas C. Bossert}
+\AddRevision{2017-05-06}{Initial release}{Lukas C. Bossert}
+
+
 \title{\texttt{\df} -- \\ modifying drafted figures\footnote{%
 For further information about the code visit \href{https://github.com/LukasCBossert/draftfigure}{https://github.com/LukasCBossert/draftfigure}
 Comments and criticisms are welcome.}}
@@ -252,7 +256,7 @@ Default is |small|.
 \end{code}
 \begin{examplebox}
 \begin{figure}[H]
-	\setkeys{Gin}{draft=true}
+	\setkeys{Gin}{draft=true, width =.6\linewidth}
 	\setkeys{draftfigure}{
   content={text instead of an image},
   size = {huge},%
@@ -387,6 +391,7 @@ On the next page I show how to deactivate certain options.
 \end{codeexample}
 %Now you can see that for \cref{C1} I set |filename=false| so it isn’t shown in the white box.
 
+\clearpage
 \section{Things to work on}
 There are still things which work not satisfactually:
 \begin{itemize}
@@ -397,6 +402,7 @@ There are still things which work not satisfactually:
 \end{itemize}
 If anyone has some ideas plase let me know: \href{mailto:lukas@digitales-altertum.de}{lukas@digitales-altertum.de}
 
-
+\section{Changelog}
+\PrintRevisions
 
 \end{document}

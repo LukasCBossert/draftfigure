@@ -38,6 +38,24 @@
 \usepackage{babel}
 
 
+\newlength{\ratio}
+\newlength{\wrapfiguremargin}
+
+\setlength{\ratio}{2cm}
+\usepackage{lscape}%landscape-Modus
+\usepackage[					% page layout modifications
+	paper=a4paper,					% 	- use A4 paper size
+%    head=.5\ratio,
+	foot=.25\ratio,
+	left=2\ratio,					% 	- total body: left margin (odd pages)
+	top=1.5\ratio,						% 	- total body: top margin
+	right=2\ratio,					% 	- total body: right margin (odd pages)
+	bottom=\ratio,					% 	- total body: bottom margin
+%	marginpar=3.5cm,			% 	- width for side note
+	marginparwidth=1.5\ratio,			% 	- width for side note
+	marginparsep=.25\ratio,				% 	- space between notes and body text (content)
+]{geometry}
+
 
 \usepackage[
   autostyle=true,%
@@ -169,7 +187,74 @@ breakable,
 listing and text,
 }
 
+%------ changelog
+\usepackage{xparse,tabularx}
 
+\ExplSyntaxOn
+
+\NewDocumentCommand{\AddRevision}{mmm}
+ {
+  \draftfigure_revision_add:nnn { #1 } { #2 } { #3 }
+ }
+\NewDocumentCommand{\PrintRevisions}{}
+ {
+  \begin{center}
+  \cs_set_eq:NN \__draftfigure_revision_do:nnn \draftfigure_revision_date:nnn
+  \seq_set_eq:NN \l__draftfigure_revision_temp_seq \g_draftfigure_revision_list_seq
+  \seq_sort:Nn \l__draftfigure_revision_temp_seq
+   {
+    \int_compare:nNnTF
+     { ##1 } > { ##2 }
+     { \sort_return_same: }
+     { \sort_return_swapped: }
+   }
+  \cs_set_eq:NN \__draftfigure_revision_do:nnn \draftfigure_revision_entry:nnn
+  \int_gset:Nn \g__draftfigure_revision_entry_int { \seq_count:N \l__draftfigure_revision_temp_seq }
+  \tl_clear:N \l__draftfigure_revision_tablebody_tl
+  \seq_map_inline:Nn \l__draftfigure_revision_temp_seq
+   {
+    \int_gdecr:N \g__draftfigure_revision_entry_int
+    \tl_put_right:Nf \l__draftfigure_revision_tablebody_tl
+     { \int_to_arabic:n { \g__draftfigure_revision_entry_int } ##1 }
+   }
+  \begin{tabularx}{\textwidth}{llXr}
+  \multicolumn{4}{l}{Revisions} \\
+  \hline
+  \tl_use:N \l__draftfigure_revision_tablebody_tl
+  \hline
+  \end{tabularx}
+  \end{center}
+ }
+
+\seq_new:N \g_draftfigure_revision_list_seq
+\seq_new:N \l__draftfigure_revision_temp_seq
+\int_new:N \g__draftfigure_revision_entry_int
+\tl_new:N \l__draftfigure_revision_tablebody_tl
+\cs_generate_variant:Nn \tl_put_right:Nn { Nf }
+
+\cs_new_protected:Nn \draftfigure_revision_add:nnn
+ {
+  \seq_gput_right:Nn \g_draftfigure_revision_list_seq
+   {
+    \__draftfigure_revision_do:nnn { #1 } { #2 } { #3 }
+   }
+ }
+
+\cs_new:Nn \draftfigure_revision_entry:nnn
+ {
+   & #1 & #2 & #3 \\
+ }
+
+\cs_new:Nn \draftfigure_revision_date:nnn
+ {
+  \__draftfigure_revision_make_date:w #1 \q_stop
+ }
+\cs_new:Npn \__draftfigure_revision_make_date:w #1-#2-#3 \q_stop
+ {
+  #1#2#3
+ }
+\ExplSyntaxOff
+%--------
 
 \usepackage{hyperxmp}
 \usepackage{hyperref}
