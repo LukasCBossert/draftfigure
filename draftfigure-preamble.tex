@@ -71,15 +71,6 @@ draft=false,
 \rofoot{\textbf{\sffamily \thepage}}
 \lofoot{\href{http://www.digitales-altertum.de}{digitales-altertum.de}}
 
-\usepackage[%
-%  flushmargin, %
-%  marginal,
-  ragged,%
-  hang, %
-  bottom%
-]{footmisc}
-
-
 
 \usepackage{enumitem}
 \setlength{\parindent}{0pt}
@@ -101,6 +92,7 @@ draft=false,
 \newtcblisting[
 auto counter,
 ]{code}{%
+  before skip=2em,after skip=2em,
     listing only,
     breakable,
     top=0.2pt,
@@ -153,6 +145,7 @@ enhanced,
 \newtcolorbox{examplebox}[1][]{examplebox}
 
 \tcbset{examplebox/.style={%
+  before skip=2em,after skip=2em,
   boxrule=0pt,
   bottomrule=2pt,
   toprule=2pt,

@@ -28,6 +28,7 @@
 \RequirePackage{calc}
 
 \newbool{df@filename}
+\newbool{df@content}
 \newbool{df@noframe}
 
 \newlength\df@height
@@ -55,7 +56,7 @@
 \DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
 
 }
-\DeclareOptionX{size}[normal]{\def\df@size{\csname df@size@#1\endcsname}}
+\DeclareOptionX{size}[small]{\def\df@size{\csname df@size@#1\endcsname}}
 \DeclareOptionX{style}[sf]{\def\df@style{\csname df@style@#1\endcsname}}
 \DeclareOptionX{position}[right]{\def\df@position{\csname df@position@#1\endcsname}}
 \DeclareOptionX{allfiguresdraft}[true]{\setkeys{Gin}{draft=#1}}
@@ -68,12 +69,13 @@
 }
 
 %% predefined styles
-\providecommand\df@style@default{\sffamily}
+\providecommand\df@style@normal{\normalfont}
 \providecommand\df@style@sf{\sffamily}
 \providecommand\df@style@sc{\scshape}
-\providecommand\df@style@bold{\bfseries}
-\providecommand\df@style@tt{\tt}
-\providecommand\df@style@rm{\rm}
+\providecommand\df@style@bf{\bfseries}
+\providecommand\df@style@it{\itshape}
+\providecommand\df@style@tt{\ttfamily}
+\providecommand\df@style@rm{\rmfamily}
 
 \providecommand\df@size@tiny{\tiny}
 \providecommand\df@size@scriptsize{\scriptsize}
@@ -82,8 +84,9 @@
 \providecommand\df@size@normal{\normalsize}
 \providecommand\df@size@large{\large}
 \providecommand\df@size@Large{\Large}
+\providecommand\df@size@Large{\LARGE}
 \providecommand\df@size@huge{\huge}
-\providecommand\df@size@HUGE{\HUGE}
+\providecommand\df@size@Huge{\Huge}
 
 \providecommand\df@position@top{}
 \providecommand\df@position@center{\centering}
@@ -114,19 +117,21 @@
   \setkeys{draftfigure}{#1}}
 
 
-\setlength\df@length{\Gin@req@width}%
-%\setlength\df@height{\Gin@nat@height}%
+
 \def\@draftfigure{%
-\begin{minipage}[c]{\df@length-1em}
+\setlength\df@height{\Gin@nat@height}%
+\setlength\df@length{\Gin@req@width}%
+\begin{minipage}[c][\df@height-1em][c]{\df@length-1em}
+ \sffamily
   \df@position%
   \df@size%
  \df@style%
   \df@content%
  \ifbool{df@filename}{%
-   \ifdefined\df@content%
-   {\mbox{}\\[\baselineskip]}%
-  {}
-  \expandafter\strip@prefix\meaning\@tempa}
+   \ifdef{\df@content}%
+   {\mbox{~}\\[\baselineskip]}%
+  {}%
+  \expandafter\strip@prefix\meaning\@tempa}%
  {}%
 \end{minipage}}%
 \endinput

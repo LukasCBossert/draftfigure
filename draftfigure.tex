@@ -19,11 +19,11 @@ english
 \input{draftfigure-preamble.tex}
 \newcommand\df{draftfigure\xspace}
 \newcommand\dfstring{|draftfigure|\xspace}
-\setkeys{Gin}{width=.3\linewidth}
+\setkeys{Gin}{width=.4\linewidth}
 
 \begin{document}
 \title{\texttt{\df} -- \\ modifying drafted figures\footnote{%
-For further information about the code visit \href{https://github.com/LukasCBossert/draftfigure}{https://github.com/LukasCBossert/draftfigure}: 
+For further information about the code visit \href{https://github.com/LukasCBossert/draftfigure}{https://github.com/LukasCBossert/draftfigure}
 Comments and criticisms are welcome.}}
 \author{Lukas C. Bossert\\{\small \href{mailto:lukas@digitales-altertum.de}{lukas@digitales-altertum.de}}}
 \date{Version: \dfdate{} (\dfversion)} 
@@ -48,7 +48,8 @@ Download the folder \dfstring with all relevant files from the CTAN-server\footn
  your system.\footnote{If you don't know what that is, have a look at
 \url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=tds} or 
 \url{http://mirror.ctan.org/tds/tds.html}.} 
-Refresh your filename database.\footnote{ 
+Refresh your filename database.
+
 Here is some additional information from the UK \TeX\ FAQ:
 \begin{itemize}[nosep,after=\vspace{-\baselineskip} ]
   \item \href{%
@@ -61,7 +62,7 @@ Here is some additional information from the UK \TeX\ FAQ:
     http://www.tex.ac.uk/cgi-bin/texfaq2html?label=privinst}{%
     \enquote{Private} installations of files}
 \end{itemize}
-}
+
 %%introduction from biblatex-dw copied and applied. might to be rewritten.
 
 \clearpage
@@ -90,7 +91,7 @@ or with
 %\cs{usepackage}\oarg{draft}\marg{graphicx}
 
 
-If you do not like the outcome with the filename and its path written with |\ttfamily| then use \dfstring.
+If you do not like the outcome with the filename and its path written with |\ttfamily| then use this package \dfstring to modify the outcome.
 \clearpage
 
 \section{Usage}
@@ -101,7 +102,7 @@ If you do not like the outcome with the filename and its path written with |\ttf
   *@\meta{further options}@*
   ]{draftfigure}
 \end{code}
-Without any further  Now you will now get white boxes instead of the images.
+Without any further options you will now get white boxes instead of the images.
 \begin{examplebox}
 \begin{figure}[H]\setkeys{Gin}{draft=true}
   \centering
@@ -113,19 +114,164 @@ Without any further  Now you will now get white boxes instead of the images.
   \caption{C}
 \end{figure}
 \end{examplebox}
+The size of the boxes are identical to the size of the images which you can define optionally with |[width=.3\linewidth]|
 \clearpage
 
 \section{Options}
+If you like the plain white boxes you don’t need to do anything else. But if you like to change that use one or more of the following options.
 
+So let’s see some action.
 \subsection{Preamble}
-\subsubsection{style}
-\subsubsection{size}
-\subsubsection{position}
-\subsubsection{allfiguresdraft}
+The following options are set in the preamble and considered globally for all figures.
 \subsubsection{content}
+\DescribeMacro{content}
+With this option you can set an individual text which will be displayed in the white box.
+\begin{code}
+\usepackage[%
+  content = {This figure is omitted due to missing copyrights.},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{draftfigure}{content = {This figure is omitted due to missing copyrights.}}
+	\setkeys{Gin}{draft=true}
+  \centering
+  \includegraphics[width=.4\linewidth]{example-image-a}
+  \caption{A}
+  \includegraphics[width=.4\linewidth]{example-image-b}
+  \caption{B}
+\end{figure}
+\end{examplebox}
+\clearpage
 \subsubsection{filename}
-\subsubsection{noframe}
+\DescribeMacro{filename}
+Activating this option with |true| the filename will be displayed in the white box.
+If you also have defined some text for |content| the filename will appear one line below of |content|.
+\begin{code}
+\usepackage[%
+  filename,%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{filename}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+And with some text in |content| it will look like this:
+\begin{code}
+\usepackage[%
+  filename,%
+  content={no image available}
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{filename,
+	content={no image available}}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+\subsubsection{style}
+\DescribeMacro{style} This defines the font style of the text of |content| or |filename|. 
+You can chose one of the following styles: 
+\begin{itemize}
+	\item[sf] |\sffamily|
+	\item[tt] |\ttfamily|
+	\item[rm] |\rmfamily|
+	\item[normal] |\normalfont|
+	\item[bf] |\bfseries|
+	\item[it] |\itshape|
+	\item[sc] |\scshape|
+\end{itemize}
+Default is |sf|.
+\begin{code}
+\usepackage[%
+  content={hidden image},
+  style = {bf},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{style={bf},content={hidden image}}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  % \includegraphics{example-image-c}
+ %  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+\subsubsection{size}
+\DescribeMacro{size}
+You can also define the text size of |content| with predefined values: 
+\begin{itemize}
+	\item[tiny] |\tiny|
+	\item[scriptsize] |\scriptsize|
+	\item[small] |\small|
+	\item[footnotesize] |\footnotesize|
+	\item[normal] |\normalsize|
+	\item[large] |\large|
+	\item[Large] |\Large|
+	\item[LARGE] |\LARGE|
+	\item[huge] |\huge|
+\end{itemize} 
+Default is |small|.
+\begin{code}
+\usepackage[%
+  content={text instead of an image},
+  size = {huge},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{
+  content={text instead of an image},
+  size = {huge},%
+	}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  % \includegraphics{example-image-b}
+  % \caption{B}
+  % \includegraphics{example-image-c}
+ %  \caption{C}
+\end{figure}
+\end{examplebox}
 
+
+
+\subsubsection{position}
+\DescribeMacro{position}
+
+\subsubsection{allfiguresdraft}
+\DescribeMacro{allfiguresdraft}
+
+
+\subsubsection{noframe}
+\DescribeMacro{noframe}
+
+\clearpage
 \subsection{Individually possible}
 
 You can also set |draft| to individual images.
@@ -142,10 +288,20 @@ You can also set |draft| to individual images.
 \end{codeexample}
 
 \subsubsection{style}
+\DescribeMacro{style}
+
 \subsubsection{size}
+\DescribeMacro{size}
+
 \subsubsection{position}
+\DescribeMacro{position}
+
 \subsubsection{content}
+\DescribeMacro{content}
+
 \subsubsection{filename}
+\DescribeMacro{filename}
+
 \clearpage
 
 \section{Things to work on}
