@@ -1,9 +1,7 @@
 draftfigure    
 ======= 
 
-
-
-a package to replace figures with a white box and some additional features
+a package to replace figures with a white box and additional features
 ---
 _2017/05/06 v0.1_
 
@@ -11,7 +9,7 @@ Copyright (c) 2017 Lukas C. Bossert
 
 [info@biblatex-archaeologie.de](mailto:info@biblatex-archaeologie.de) | [www.digitales-altertum.de](http://www.digitales-altertum.de)
 
-With this package you can controll the outcome of a figure which is set to `draft` and modify the display with various options.
+With this package you can control the outcome of a figure which is set to `draft` and modify the display with various options.
 
 ---
 
