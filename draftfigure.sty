@@ -117,10 +117,10 @@
   \df@position%
   \df@size%
  \df@style%
-  \df@content%
+\df@content%
  \ifbool{df@filename}{%
    \ifdef{\df@content}%
-   {\mbox{~}\\[\baselineskip]}%
+   {\par}%
   {}%
   \expandafter\strip@prefix\meaning\@tempa}%
  {}%
