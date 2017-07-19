@@ -3,7 +3,7 @@ draftfigure
 
 a package to replace figures with a white box and additional features
 ---
-_2017/05/06 v0.1_
+_2017/07/19 v0.2_
 
 Copyright (c) 2017 Lukas C. Bossert
 
