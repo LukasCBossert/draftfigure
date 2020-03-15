@@ -1,22 +1,27 @@
-% draftfigure --%
-%            modifying drafted figures
-% Copyright (c) 2017 Lukas C. Bossert
-%
-% This work may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either version 1.3
-% of this license or (at your option) any later version.
-% The latest version of this license is in
-%   http://www.latex-project.org/lppl.txt
-% and version 1.3 or later is part of all distributions of LaTeX
-% version 2005/12/01 or later.
- \def\df@date{2017/07/19}
- \def\df@version{0.2}
- \def\df@styid{\df@date\space v\df@version\space draftfigure (LCB)}
- \let\dfdate\df@date
- \let\dfversion\df@version
+%%
+%% This is file `draftfigure.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% draftfigure.dtx  (with options: `code')
+%% ----------------------------------------------------------------
+%% draftfigure
+%% Author:  Lukas C. Bossert
+%% E-mail:  lukas@texografie.de
+%% License: Released under the LaTeX Project Public License v1.3c or later
+%% See:     http://www.latex-project.org/lppl.txt
+%% Various parts my have a different licence,
+%% please consider and respect them carefully.
+%% ----------------------------------------------------------------
+%% 
+\def\df@date{2020/03/16}
+\def\df@version{0.3}
+\let\dfdate\df@date
+\let\dfversion\df@version
 
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
-\ProvidesPackage{draftfigure}[\df@styid]
+\ProvidesPackage{draftfigure}[\df@date\space v\df@version\space draftfigure (LCB)]
 
 \RequirePackage{graphicx}
 \RequirePackage{etoolbox}
@@ -36,9 +41,7 @@
 \providecommand*\df@position{}
 \providecommand*\df@content{}
 
-
 \patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
-
 
 \providecommand\df@noframe
 
@@ -120,4 +123,7 @@
   \expandafter\strip@prefix\meaning\@tempa}%
  {}%
 \end{minipage}}%
-\endinput
+%% 
+%% Copyright (C) 2020
+%%
+%% End of file `draftfigure.sty'.

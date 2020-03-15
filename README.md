@@ -1,13 +1,12 @@
-draftfigure    
-======= 
+draftfigure
+===========
 
 a package to replace figures with a white box and additional features
 ---
-_2017/07/19 v0.2_
 
-Copyright (c) 2017 Lukas C. Bossert
+Copyright (c) 2020 Lukas C. Bossert
 
-[info@biblatex-archaeologie.de](mailto:info@biblatex-archaeologie.de) | [www.digitales-altertum.de](http://www.digitales-altertum.de)
+[lukas@texografie.de](mailto:lukas@texografie.de) | [www.texografie.de](http://www.texografie.de)
 
 With this package you can control the outcome of a figure which is set to `draft` and modify the display with various options.
 
@@ -18,12 +17,11 @@ This package contains:
 documentation:
 
 - draftfigure.pdf
-- draftfigure.tex
-
-style-file:
-
+- draftfigure.dtx
+- makefile
+- README.md
+- CHANGELOG.md
 - draftfigure.sty
-
 
 This work may be distributed and/or modified under the
 conditions of the LaTeX Project Public License, either version 1.3
@@ -34,4 +32,3 @@ version 2005/12/01 or later.
 ---
 This work has the LPPL maintenance status _maintained_.
 The current maintainer of this work is [Lukas C. Bossert](https://github.com/LukasCBossert).
-

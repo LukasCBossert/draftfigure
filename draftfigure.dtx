@@ -1,0 +1,754 @@
+% \iffalse 
+%<*driver,code>
+\def\df@date{2020/03/16}
+\def\df@version{0.3}
+%</driver,code>
+%<*internal>
+\iffalse
+%</internal>
+%<*changelog>
+CHANGELOG
+=========
+
+# 2020-03-16
+* changed to literate programming with `dtx`
+
+
+# 2017-07-19
+* Code improved
+
+# 2017-05-07
+* Documentation completed
+
+# 2017-05-06 v0.1
+* First pre-release, documentation as PDF
+
+%</changelog>
+%<*readme>
+draftfigure
+===========
+
+a package to replace figures with a white box and additional features
+---
+
+
+Copyright (c) 2020 Lukas C. Bossert
+
+[lukas@texografie.de](mailto:lukas@texografie.de) | [www.texografie.de](http://www.texografie.de)
+
+With this package you can control the outcome of a figure which is set to `draft` and modify the display with various options.
+
+---
+
+This package contains:
+
+documentation:
+
+- draftfigure.pdf
+- draftfigure.dtx
+- makefile 
+- README.md 
+- CHANGELOG.md
+- draftfigure.sty
+
+
+This work may be distributed and/or modified under the
+conditions of the LaTeX Project Public License, either version 1.3
+of this license or (at your option) any later version.
+The latest version of this license is in [http://www.latex-project.org/lppl.txt](http://www.latex-project.org/lppl.txt) and version 1.3 or later is part of all distributions of LaTeX
+version 2005/12/01 or later.
+
+---
+This work has the LPPL maintenance status _maintained_.
+The current maintainer of this work is [Lukas C. Bossert](https://github.com/LukasCBossert).
+%</readme>
+%<*internal>
+\fi
+%</internal>
+%<*batchfile>
+\begingroup  % starte eine Gruppe
+\input docstrip.tex
+\keepsilent
+\askforoverwritefalse
+\preamble
+----------------------------------------------------------------
+draftfigure
+Author:  Lukas C. Bossert
+E-mail:  lukas@texografie.de
+License: Released under the LaTeX Project Public License v1.3c or later
+See:     http://www.latex-project.org/lppl.txt
+Various parts my have a different licence,
+please consider and respect them carefully.
+----------------------------------------------------------------
+
+\endpreamble
+\postamble
+ 
+Copyright (C) 2020
+\endpostamble
+\generate{\file{draftfigure.sty}{\from{\jobname.dtx}{code}}}
+\nopreamble\nopostamble
+
+\usedir{doc/latex/\jobname}
+\generate{
+  \file{README.md}{\from{\jobname.dtx}{readme}}
+  \file{CHANGELOG.md}{\from{\jobname.dtx}{changelog}}
+  }
+\endgroup % beende die Gruppe
+%</batchfile>
+%<*driver> 
+\documentclass[a4paper,english]{ltxdoc}
+\usepackage[oldstyle]{libertine}
+\usepackage{fontspec}
+\setmonofont[Scale=MatchLowercase]{TeXGyreCursor}
+
+\usepackage{xspace}
+\newcommand\dfname{draftfigure\xspace}
+\newcommand\dfstring{|draftfigure|\xspace}
+\usepackage{draftfigure}
+\setkeys{Gin}{width=.5\linewidth}
+
+
+\usepackage{url}
+\usepackage{metalogo}
+\usepackage{hologo}
+\usepackage{babel}
+
+
+\usepackage[
+  autostyle=true,%
+]{csquotes}
+\usepackage{multicol}
+  \setlength{\columnsep}{1.5cm}
+  \setlength{\columnseprule}{0.2pt}
+
+\usepackage{xcolor}
+\definecolor{codeblue}{RGB}{0,65,137}
+\definecolor{codegreen}{RGB}{147,193,26}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 2pt}
+\setenumerate[1]{label=(\alph*),leftmargin=*,nolistsep,parsep=\parskip}
+\usepackage{float}
+\usepackage{caption}
+
+\usepackage[%
+  xparse,
+  skins,%
+  listings,%
+  breakable,%
+]{tcolorbox}
+\lstMakeShortInline{|}
+
+ 
+
+\newtcblisting[
+auto counter,
+]{code}{%
+  before skip=2em,after skip=2em,
+    listing only,
+    breakable,
+    top=0.2pt,
+    bottom=0.2pt,
+    colback=codegreen!10,
+    colframe=codegreen,
+    left=5pt,
+    right=5pt,
+      sharp corners,
+    boxrule=0pt,
+    bottomrule=0pt,
+    toprule=0pt,
+    enhanced jigsaw,
+    listing options={%style=tcblatex,
+%        numbers=left,
+        numberstyle=\tiny\color{codeblue},
+        moredelim={[is][keywordstyle]{@@}{@@}},
+        basicstyle=\small\ttfamily,
+        breaklines=true,
+        breakautoindent=false,
+        breakindent=0pt,
+        escapeinside={{*@}{@*}},
+    },%
+    lefttitle=0pt,
+    coltitle=codeblue,
+    colbacktitle=codegreen!10,
+%    fonttitle=\bfseries\footnotesize,
+%    title={Example \thetcbcounter:  #2}, 
+%   #1,%  
+%    borderline north={1pt}{14.4pt}{codegreen,dashed},
+}
+
+
+
+\newtcolorbox{marker}[1][]{
+enhanced,
+  before skip=2mm,after skip=3mm,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  colback=backcolour,
+  colframe=yellow!20!black,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay={%
+    \path[fill=tcbcol@back!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcol@frame,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=red!50!black,draw=none] (interior.south west) rectangle node[white]{\Huge\bfseries !} ([xshift=4mm]interior.north west);
+    },
+  drop fuzzy shadow,#1
+  }
+  
+\newtcolorbox{examplebox}[1][]{examplebox}
+
+\tcbset{examplebox/.style={%
+  before skip=2em,after skip=2em,
+  boxrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+ colframe=codeblue,
+  colback=codegreen!10,
+   coltitle=codegreen!10,%  coltitle=codeblue,
+  bicolor,
+      sharp corners,
+ fontupper=\small\ttfamily,
+  colbacklower=codeblue!10,
+  fonttitle=\sffamily\bfseries,
+  }}
+
+
+
+\newtcblisting{codeexample}{%
+before skip=\baselineskip,
+examplebox,
+breakable,
+%  sidebyside,
+listing and text,
+}
+
+
+\usepackage{hyperxmp}
+\usepackage{hyperref}
+\hypersetup{					% setup the hyperref-package options
+  unicode       = true,
+	pdftitle      = {draftfigure},	% 	- title (PDF meta)
+	pdfsubject    = {},% 	- subject (PDF meta)
+	pdfauthor      = {Lukas C. Bossert},	% 	- author (PDF meta)
+	pdfauthortitle = {},
+	pdfcopyright   = {This work may be distributed and/or modified under the
+        conditions of the LaTeX Project Public License, either version 1.3
+        of this license or (at your option) any later version.},
+	pdfhighlight   = /N,
+	pdfdisplaydoctitle = true,
+	pdfdate        = {\the\year-\the\month-\the\day}
+	pdflang        = {en},
+	pdfcaptionwriter = {Lukas C. Bossert},
+	pdfkeywords    = {},
+	pdfproducer={LuaLaTeX},
+	pdflicenseurl  = {http://www.latex-project.org/lppl.txt},
+	plainpages     = false,			% 	- 
+  colorlinks     = true, %Colours links instead of ugly boxes
+  urlcolor       = codeblue, %Colour for external hyperlinks
+  linkcolor      = codeblue, %Colour of internal links
+  citecolor      = black, %Colour of citations
+  linktoc        = page,
+  pdfborder      = {0 0 0},			% 	-
+	breaklinks     = true,			% 	- allow line break inside links
+	bookmarksnumbered  = true,		%
+	bookmarksopenlevel = 4,
+	bookmarksopen  = true,		%
+	final          = true
+}
+\usepackage{bookmark}
+\usepackage{cleveref}
+
+\crefformat{lstlisting}{#2example\ #1#3}
+\Crefformat{lstlisting}{#2Example #1#3}
+\crefmultiformat{lstlisting}{#2examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
+\Crefmultiformat{lstlisting}{#2Examples #1#3}{; #2#1#3}{; #2#1#3}{; #2#1#3}
+\Crefrangeformat{lstlisting}{#3Examples #1#4--#5#2#6}
+\crefrangeformat{lstlisting}{#3examples #1#4--#5#2#6}
+%%%%%%%%%
+\title{\texttt{\dfname} -- \\ modifying drafted figures\footnote{%
+For further information about the code visit \href{https://github.com/LukasCBossert/draftfigure}{https://github.com/LukasCBossert/draftfigure}
+Comments and criticisms are welcome.}}
+\author{Lukas C. Bossert\\{\small \href{mailto:lukas@texografie.de}{lukas@texografie.de}}}
+\date{Version: \dfversion{} (\dfdate)} 
+
+\begin{document}
+\maketitle
+\begin{abstract}
+\noindent This package allows to customize the outcome of drafted figures.
+\end{abstract}
+\begin{multicols}{2}
+\footnotesize \tableofcontents
+\end{multicols}
+\section{Installation}
+\dfstring is part of the distributions MiK\TeX \footnote{Website: \url{http://www.miktex.org}.} 
+and \TeX Live\footnote{Website: \url{http://www.tug.org/texlive}.}~-- thus, you
+can easily install it using the respective package manager. 
+If you would like to
+install \dfstring manually, do the following:
+Download the folder \dfstring with all relevant files from the CTAN-server\footnote{\url{https://www.ctan.org/pkg/\dfname}} and copy the content of the |zip|-file to the \texttt{\$LOCALTEXMF} directory of
+ your system.\footnote{If you don't know what that is, have a look at
+\url{http://www.tex.ac.uk/cgi-bin/texfaq2html?label=tds} or 
+\url{http://mirror.ctan.org/tds/tds.html}.} 
+Refresh your filename database.
+
+\clearpage
+\section{Status Quo}
+
+Usually you see all of your images in your PDF:
+\begin{examplebox}
+\begin{figure}[H]
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+Sometimes you do not need to see the images or want to omit them due to faster compiling or you do not have the right to publish them.
+
+
+You can \enquote{switch off} the images by using the option |draft| either with 
+|\documentclass[draft]|\marg{class} 
+%\cs{documentclass}\oarg{draft}\marg{clss} 
+or with 
+|\usepackage[draft]{graphicx}|.
+%\cs{usepackage}\oarg{draft}\marg{graphicx}
+
+
+If you do not like the outcome with the filename and its path written with |\ttfamily| but still need the same size of the image in the text then use this package \dfstring to modify the outcome.
+\clearpage
+
+\section{Usage}
+ \DescribeMacro{draftfigure}  The name of the package is  \dfstring which has to be activated in the preamble. 
+
+\begin{code}
+\usepackage[*@\meta{further options}@*]{draftfigure}
+\end{code}
+Without any further options you will now get white boxes instead of the images.
+\begin{examplebox}
+\begin{figure}[H]\setkeys{Gin}{draft=true}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+
+\clearpage
+
+\section{Options}
+If you like the plain white boxes you don’t need to do anything else. But if you like to change that use one or more of the following options.
+
+So let’s see some action.
+\subsection{Preamble}
+The following options are set in the preamble and considered globally for all figures.
+\subsubsection{content}
+\DescribeMacro{content}
+With this option you can set an individual text which will be displayed in the white box.
+\begin{code}
+\usepackage[%
+  content = {This figure is omitted due to missing copyrights.},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{draftfigure}{content = {This figure is omitted due to missing copyrights.}}
+	\setkeys{Gin}{draft=true}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+\end{figure}
+\end{examplebox}
+\clearpage
+\subsubsection{filename}
+\DescribeMacro{filename}
+Activating this option with |true| the filename will be displayed in the white box.
+If you also have defined some text for |content| the filename will appear one line below of |content|.
+\begin{code}
+\usepackage[%
+  filename,%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{filename}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+\DescribeMacro{filename}
+\DescribeMacro{content}
+And with some text in |content| it will look like this:
+\begin{code}
+\usepackage[%
+  filename,%
+  content={no image available}
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{filename,
+	content={no image available}}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+\subsubsection{style}
+\DescribeMacro{style} This defines the font style of the text of |content| or |filename|. 
+You can chose one of the following styles: 
+\begin{multicols}{3}
+\begin{itemize}
+	\item[sf] |\sffamily|
+	\item[tt] |\ttfamily|
+	\item[rm] |\rmfamily|
+	\item[normal] |\normalfont|
+	\item[bf] |\bfseries|
+	\item[it] |\itshape|
+	\item[sc] |\scshape|
+\end{itemize}
+\end{multicols}
+Default is |sf|.
+\DescribeMacro{content}
+\DescribeMacro{style}
+\begin{code}
+\usepackage[%
+  content={hidden image},
+  style = {bf},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true}
+	\setkeys{draftfigure}{style={bf},content={hidden image}}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+  \includegraphics{example-image-b}
+  \caption{B}
+  % \includegraphics{example-image-c}
+ %  \caption{C}
+\end{figure}
+\end{examplebox}
+\clearpage
+\subsubsection{size}
+\DescribeMacro{size}
+You can also define the text size of |content| with predefined values: 
+\begin{multicols}{2}
+\begin{itemize}
+	\item[tiny] |\tiny|
+	\item[scriptsize] |\scriptsize|
+	\item[small] |\small|
+	\item[footnotesize] |\footnotesize|
+	\item[normal] |\normalsize|
+	\item[large] |\large|
+	\item[Large] |\Large|
+	\item[LARGE] |\LARGE|
+	\item[huge] |\huge|
+\end{itemize}
+\end{multicols}
+Default is |small|.
+\DescribeMacro{content}
+\DescribeMacro{size}
+\begin{code}
+\usepackage[%
+  content={text instead of an image},
+  size = {huge},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true, width =.6\linewidth}
+	\setkeys{draftfigure}{
+  content={text instead of an image},
+  size = {huge},%
+	}
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+   \includegraphics{example-image-b}
+   \caption{B}
+  % \includegraphics{example-image-c}
+ %  \caption{C}
+\end{figure}
+\end{examplebox}
+
+\clearpage
+
+\subsubsection{position}
+\DescribeMacro{position}
+You can also decide where your text from |content| has to be placed
+\begin{multicols}{3}
+\begin{itemize}
+	\item[left] |\raggedright|
+	\item[center] |\centering|
+	\item[right] |\raggedleft|
+\end{itemize}
+\end{multicols}
+Default is |left|.
+\DescribeMacro{content}
+\DescribeMacro{position}
+\begin{code}
+\usepackage[%
+  content={positioning},
+  position = {center},%
+  ]{draftfigure}
+\end{code}
+\begin{examplebox}
+\begin{figure}[H]
+	\setkeys{Gin}{draft=true,width=.45\linewidth}
+	\setkeys{draftfigure}{
+ content={positioning},
+ position = {center},%
+ }
+  \centering
+  \includegraphics{example-image-a}
+  \caption{A}
+   \includegraphics{example-image-b}
+   \caption{B}
+   \includegraphics{example-image-c}
+  \caption{C}
+\end{figure}
+\end{examplebox}
+
+\clearpage
+\subsubsection{allfiguresdraft}
+\DescribeMacro{allfiguresdraft}
+Enabling |allfiguresdraft| all figures in your text will be shown as a white box. This is the same as |\usepackage[draft]{graphicx}|.
+
+\subsubsection{noframe}
+\DescribeMacro{noframe}
+The white boxes of the replaced figures are shown with no frame and no border, but still same sizes as the figure it represents.
+
+
+\subsection{Individually possible options}
+
+Since you can also set |draft| to individual images you can also pass some of the options of \dfstring to individual images.
+
+\DescribeMacro{style}
+\DescribeMacro{size}
+\DescribeMacro{position}
+\DescribeMacro{content}
+\DescribeMacro{filename}These are |style|, |size|, |position|, |content|, |filename|.
+
+In the preamble there is this setup
+\begin{code}
+\usepackage{draftfigure}
+\end{code}
+So no options are enabled globally.
+
+To pass an option to an image you need to insert in the |figure|-environment the following:
+\begin{code}
+\setkeys{draftfigure}*@\marg{options}@*
+\end{code}
+or -- a little bit shorter:
+\begin{code}
+\setdf*@\marg{options}@*
+\end{code}
+
+The overview starts on the next page.
+\clearpage 
+\setkeys{Gin}{width=.4\linewidth}
+\begin{codeexample}
+\begin{figure}[H]
+ \centering
+ \setkeys{draftfigure}{content={white box}}
+  \includegraphics[draft]{example-image-a}
+  \caption{A}\label{A}
+ \setkeys{draftfigure}{filename=true}
+  \includegraphics[draft]{example-image-b}
+  \caption{B}\label{B}
+ \setkeys{draftfigure}{content={another white box}}
+  \includegraphics[draft]{example-image-c}
+  \caption{C}\label{C}
+\end{figure}
+\end{codeexample}
+You probably noticed that I defined some text within |content| for \cref{A}.
+This text is also shown for \cref{B} although I didn’t define it again --
+the options you define with |\setkeys{draftfigure}|\marg{options}
+are valid (in an environment) until they are refined 
+as this happens for \cref{C}.
+
+The same effect you see with the option |filename| which is enabled for \cref{B} and still valid for \cref{C}.
+
+On the next page I show how to deactivate certain options.
+\clearpage
+\begin{codeexample}
+\begin{figure}[H]
+ \centering
+ \setkeys{draftfigure}{content={white box}}
+  \includegraphics[draft]{example-image-a}
+  \caption{A}\label{A1}
+ 
+ \setkeys{draftfigure}{filename=true,
+ style={tt},position={right}}
+  \includegraphics[draft]{example-image-b}
+  \caption{B}\label{B1}
+
+ \setkeys{draftfigure}{content={hidden image},
+   style={rm},filename=false,position={center}}
+  \includegraphics[draft]{example-image-c}
+  \caption{C}\label{C1}
+\end{figure}
+\end{codeexample}
+%Now you can see that for \cref{C1} I set |filename=false| so it isn’t shown in the white box.
+
+\clearpage
+\section{Things to work on}
+There are still things which work not satisfactorily:
+\begin{itemize}
+	\item  noframe for individual image
+\item  combine different styles: sc and sf etc.
+\item  color frame
+\item  image instead of text in background
+\end{itemize}
+
+\DocInput{\jobname.dtx} 
+\end{document}
+%</driver>
+% \fi
+% \iffalse
+%<*code>
+% \fi
+%\section{Code-Documentation}
+% 
+%    \begin{macrocode}
+\let\dfdate\df@date
+\let\dfversion\df@version
+
+\NeedsTeXFormat{LaTeX2e}[1994/06/01]
+\ProvidesPackage{draftfigure}[\df@date\space v\df@version\space draftfigure (LCB)]
+
+\RequirePackage{graphicx}
+\RequirePackage{etoolbox}
+\RequirePackage{xkeyval}
+\RequirePackage{calc}
+
+\newbool{df@filename}
+\newbool{df@content}
+\newbool{df@noframe}
+
+\newlength\df@height
+\newlength\df@length
+
+\providecommand*\df@size{}
+\providecommand*\df@style{}
+\providecommand*\df@font{}
+\providecommand*\df@position{}
+\providecommand*\df@content{}
+
+
+\patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
+
+
+\providecommand\df@noframe
+
+%% Declare a package option
+\DeclareOptionX{content}{\def\df@content{#1}}
+\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
+
+}
+\DeclareOptionX{size}[small]{\def\df@size{\csname df@size@#1\endcsname}}
+\DeclareOptionX{style}[sf]{\def\df@style{\csname df@style@#1\endcsname}}
+\DeclareOptionX{position}[right]{\def\df@position{\csname df@position@#1\endcsname}}
+\DeclareOptionX{allfiguresdraft}[true]{\setkeys{Gin}{draft=#1}}
+\DeclareOptionX{noframe}[true]{\csuse{bool#1}{df@noframe}
+ \ifbool{df@noframe}{%
+ \patchcmd\Gin@setfile{\vrule\hss}{\vrule\@width\z@\hss}{}{}%left
+ \patchcmd\Gin@setfile{\hss\vrule}{\hss\vrule\@width\z@}{}{}%right
+ \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}%top
+ \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}%bottom
+}{}}
+
+%% predefined styles
+\providecommand\df@style@normal{\normalfont}
+\providecommand\df@style@sf{\sffamily}
+\providecommand\df@style@sc{\scshape}
+\providecommand\df@style@bf{\bfseries}
+\providecommand\df@style@it{\itshape}
+\providecommand\df@style@tt{\ttfamily}
+\providecommand\df@style@rm{\rmfamily}
+
+\providecommand\df@size@tiny{\tiny}
+\providecommand\df@size@scriptsize{\scriptsize}
+\providecommand\df@size@small{\small}
+\providecommand\df@size@footnotesize{\footnotesize}
+\providecommand\df@size@normal{\normalsize}
+\providecommand\df@size@large{\large}
+\providecommand\df@size@Large{\Large}
+\providecommand\df@size@Large{\LARGE}
+\providecommand\df@size@huge{\huge}
+
+\providecommand\df@position@top{}%% fix me
+\providecommand\df@position@center{\centering}
+\providecommand\df@position@bottom{}%% fix me
+\providecommand\df@position@right{\raggedleft}
+\providecommand\df@position@left{\raggedright}
+
+%% Process the options given to the package
+\ProcessOptionsX
+
+\define@key{draftfigure}{code}{%
+  \def\df@style{#1}}
+\define@key{draftfigure}{noframe}[true]{%
+  \csuse{bool#1}{df@noframe}}
+\define@key{draftfigure}{filename}[true]{%
+  \csuse{bool#1}{df@filename}}
+\define@key{draftfigure}{content}[]{%
+  \def\df@content{#1}}
+\define@key{draftfigure}{style}[normal]{%
+  \def\df@style{\csname df@style@#1\endcsname}}
+\define@key{draftfigure}{position}[left]{%
+   \def\df@position{\csname df@position@#1\endcsname}}
+\define@key{draftfigure}{size}[normal]{%
+  \def\df@size{\csname df@size@#1\endcsname}}
+
+\newcommand\setdf[1]{\setkeys{draftfigure}{#1}}
+
+\def\@draftfigure{%
+\setlength\df@height{\Gin@nat@height}%
+\setlength\df@length{\Gin@req@width}%
+\begin{minipage}[c][\df@height-5pt][c]{\df@length-5pt}%
+ \sffamily%
+  \df@position%
+  \df@size%
+ \df@style%
+\df@content%
+ \ifbool{df@filename}{%
+   \ifdef{\df@content}%
+   {\par}%
+  {}%
+  \expandafter\strip@prefix\meaning\@tempa}%
+ {}%
+\end{minipage}}%
+%    \end{macrocode}
+% \iffalse
+%</code>
+% \fi
+%\endinput
