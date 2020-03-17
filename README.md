@@ -4,6 +4,10 @@ draftfigure
 a package to replace figures with a white box and additional features
 ---
 
+To get all files run in your terminal/commandline
+
+> `make`
+
 Copyright (c) 2020 Lukas C. Bossert
 
 [lukas@texografie.de](mailto:lukas@texografie.de) | [www.texografie.de](http://www.texografie.de)

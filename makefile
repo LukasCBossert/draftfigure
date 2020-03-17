@@ -67,12 +67,12 @@ clean:
 	rm -rf _markdown_*
 	$(echoPROJECT) "* cleaned temp files * $(NC)"
 
-ctan: $(PROJECT).dtx
+ctan: $(PROJECT).dtx doc
 	$(echoPROJECT) "* start zipping files * $(NC)"
 	@-mkdir archive
-	@rm -f archive/$(PROJECT)-$(DATE)*.zip
+	@-rm -f archive/$(PROJECT)-$(DATE)*.zip
 	@mkdir $(TDIR)
-	@cp $(PROJECT).{dtx,pdf} README.md makefile $(TDIR)
+	@cp $(PROJECT).{dtx,pdf} *.md makefile $(TDIR)
 	@cd $(TEMP); \
    	zip -Drq $(PWD)/archive/$(PROJECT)-$(VERS).zip $(PROJECT)
 	$(echoPROJECT) "* files zipped * $(NC)"

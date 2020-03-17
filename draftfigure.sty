@@ -19,37 +19,27 @@
 \def\df@version{0.3}
 \let\dfdate\df@date
 \let\dfversion\df@version
-
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{draftfigure}[\df@date\space v\df@version\space draftfigure (LCB)]
-
 \RequirePackage{graphicx}
 \RequirePackage{etoolbox}
 \RequirePackage{xkeyval}
 \RequirePackage{calc}
-
 \newbool{df@filename}
 \newbool{df@content}
 \newbool{df@noframe}
-
 \newlength\df@height
 \newlength\df@length
-
 \providecommand*\df@size{}
 \providecommand*\df@style{}
 \providecommand*\df@font{}
 \providecommand*\df@position{}
 \providecommand*\df@content{}
-
+\providecommand\df@noframe{}
 \patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
-
-\providecommand\df@noframe
-
 %% Declare a package option
 \DeclareOptionX{content}{\def\df@content{#1}}
-\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
-
-}
+\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}}
 \DeclareOptionX{size}[small]{\def\df@size{\csname df@size@#1\endcsname}}
 \DeclareOptionX{style}[sf]{\def\df@style{\csname df@style@#1\endcsname}}
 \DeclareOptionX{position}[right]{\def\df@position{\csname df@position@#1\endcsname}}
@@ -61,7 +51,6 @@
  \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}%top
  \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}%bottom
 }{}}
-
 %% predefined styles
 \providecommand\df@style@normal{\normalfont}
 \providecommand\df@style@sf{\sffamily}
@@ -70,7 +59,6 @@
 \providecommand\df@style@it{\itshape}
 \providecommand\df@style@tt{\ttfamily}
 \providecommand\df@style@rm{\rmfamily}
-
 \providecommand\df@size@tiny{\tiny}
 \providecommand\df@size@scriptsize{\scriptsize}
 \providecommand\df@size@small{\small}
@@ -80,16 +68,13 @@
 \providecommand\df@size@Large{\Large}
 \providecommand\df@size@Large{\LARGE}
 \providecommand\df@size@huge{\huge}
-
 \providecommand\df@position@top{}%% fix me
 \providecommand\df@position@center{\centering}
 \providecommand\df@position@bottom{}%% fix me
 \providecommand\df@position@right{\raggedleft}
 \providecommand\df@position@left{\raggedright}
-
 %% Process the options given to the package
 \ProcessOptionsX
-
 \define@key{draftfigure}{code}{%
   \def\df@style{#1}}
 \define@key{draftfigure}{noframe}[true]{%
@@ -104,9 +89,7 @@
    \def\df@position{\csname df@position@#1\endcsname}}
 \define@key{draftfigure}{size}[normal]{%
   \def\df@size{\csname df@size@#1\endcsname}}
-
 \newcommand\setdf[1]{\setkeys{draftfigure}{#1}}
-
 \def\@draftfigure{%
 \setlength\df@height{\Gin@nat@height}%
 \setlength\df@length{\Gin@req@width}%

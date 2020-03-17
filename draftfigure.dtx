@@ -32,6 +32,10 @@ a package to replace figures with a white box and additional features
 ---
 
 
+To get all files run in your terminal/commandline
+
+> `make`
+
 Copyright (c) 2020 Lukas C. Bossert
 
 [lukas@texografie.de](mailto:lukas@texografie.de) | [www.texografie.de](http://www.texografie.de)
@@ -242,7 +246,6 @@ listing and text,
         of this license or (at your option) any later version.},
 	pdfhighlight   = /N,
 	pdfdisplaydoctitle = true,
-	pdfdate        = {\the\year-\the\month-\the\day}
 	pdflang        = {en},
 	pdfcaptionwriter = {Lukas C. Bossert},
 	pdfkeywords    = {},
@@ -641,39 +644,48 @@ There are still things which work not satisfactorily:
 %    \begin{macrocode}
 \let\dfdate\df@date
 \let\dfversion\df@version
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \NeedsTeXFormat{LaTeX2e}[1994/06/01]
 \ProvidesPackage{draftfigure}[\df@date\space v\df@version\space draftfigure (LCB)]
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \RequirePackage{graphicx}
 \RequirePackage{etoolbox}
 \RequirePackage{xkeyval}
 \RequirePackage{calc}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \newbool{df@filename}
 \newbool{df@content}
 \newbool{df@noframe}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \newlength\df@height
 \newlength\df@length
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \providecommand*\df@size{}
 \providecommand*\df@style{}
 \providecommand*\df@font{}
 \providecommand*\df@position{}
 \providecommand*\df@content{}
-
-
+\providecommand\df@noframe{}
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \patchcmd{\Gin@setfile}{\expandafter\strip@prefix\meaning\@tempa}{\@draftfigure}{}{}
-
-
-\providecommand\df@noframe
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 %% Declare a package option
 \DeclareOptionX{content}{\def\df@content{#1}}
-\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}
-
-}
+\DeclareOptionX{filename}[true]{\csuse{bool#1}{df@filename}}
 \DeclareOptionX{size}[small]{\def\df@size{\csname df@size@#1\endcsname}}
 \DeclareOptionX{style}[sf]{\def\df@style{\csname df@style@#1\endcsname}}
 \DeclareOptionX{position}[right]{\def\df@position{\csname df@position@#1\endcsname}}
@@ -685,7 +697,9 @@ There are still things which work not satisfactorily:
  \patchcmd\Gin@setfile{\hrule\@width}{\hrule\@height\z@\@width}{}{}%top
  \patchcmd\Gin@setfile{\vss\hrule}{\vss\hrule\@height\z@}{}{}%bottom
 }{}}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 %% predefined styles
 \providecommand\df@style@normal{\normalfont}
 \providecommand\df@style@sf{\sffamily}
@@ -694,7 +708,9 @@ There are still things which work not satisfactorily:
 \providecommand\df@style@it{\itshape}
 \providecommand\df@style@tt{\ttfamily}
 \providecommand\df@style@rm{\rmfamily}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \providecommand\df@size@tiny{\tiny}
 \providecommand\df@size@scriptsize{\scriptsize}
 \providecommand\df@size@small{\small}
@@ -704,16 +720,22 @@ There are still things which work not satisfactorily:
 \providecommand\df@size@Large{\Large}
 \providecommand\df@size@Large{\LARGE}
 \providecommand\df@size@huge{\huge}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \providecommand\df@position@top{}%% fix me
 \providecommand\df@position@center{\centering}
 \providecommand\df@position@bottom{}%% fix me
 \providecommand\df@position@right{\raggedleft}
 \providecommand\df@position@left{\raggedright}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 %% Process the options given to the package
 \ProcessOptionsX
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \define@key{draftfigure}{code}{%
   \def\df@style{#1}}
 \define@key{draftfigure}{noframe}[true]{%
@@ -728,9 +750,13 @@ There are still things which work not satisfactorily:
    \def\df@position{\csname df@position@#1\endcsname}}
 \define@key{draftfigure}{size}[normal]{%
   \def\df@size{\csname df@size@#1\endcsname}}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \newcommand\setdf[1]{\setkeys{draftfigure}{#1}}
-
+%    \end{macrocode}
+%
+%    \begin{macrocode}
 \def\@draftfigure{%
 \setlength\df@height{\Gin@nat@height}%
 \setlength\df@length{\Gin@req@width}%
